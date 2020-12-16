@@ -1,0 +1,2762 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package yazlab1proje2;
+
+import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
+
+/**
+ *
+ * @author OnurOkyay
+ */
+public class Avm {
+
+    public static int ToplamMüsteri = 0;
+    public static Semaphore semaphorekat0 = new Semaphore(1);
+    public static Semaphore semaphorekat1yukari = new Semaphore(1);
+    public static Semaphore semaphorekat1asagi = new Semaphore(1);
+     public static Semaphore semaphorekat2yukari = new Semaphore(1);
+    public static Semaphore semaphorekat2asagi = new Semaphore(1);
+     public static Semaphore semaphorekat3yukari = new Semaphore(1);
+    public static Semaphore semaphorekat3asagi = new Semaphore(1);
+     public static Semaphore semaphorekat4yukari = new Semaphore(1);
+    public static Semaphore semaphorekat4asagi = new Semaphore(1);
+     public static Semaphore semaphoregenel = new Semaphore(1);
+     public static Semaphore asansördenkisialmasemafor= new Semaphore(1);
+    public static GirisThread giristhread = new GirisThread();
+    public static CikisThread cikisthread = new CikisThread();
+    public static KontrolThread kontrolthread = new KontrolThread();
+    public static AsansörThread asansörthread1 = new AsansörThread("Asansör1");
+    public static AsansörThread asansörthread2 = new AsansörThread("Asansör2");
+    public static AsansörThread asansörthread3 = new AsansörThread("Asansör3");
+    public static AsansörThread asansörthread4 = new AsansörThread("Asansör4");
+    public static AsansörThread asansörthread5 = new AsansörThread("Asansör5");
+    public static ArrayList<Kat> katlar=new ArrayList<Kat>();
+     public static ArrayList<AsansörThread> asansörler=new ArrayList<AsansörThread>();
+    public static Arayüz arayüz=new Arayüz();
+    
+          
+    public static void main(String[] args) throws InterruptedException {
+          
+            katlar.add(new Kat());
+            katlar.add(new Kat());
+            katlar.add(new Kat());
+            katlar.add(new Kat());
+            katlar.add(new Kat());
+            asansörler.add(asansörthread1);
+            asansörler.add(asansörthread2);
+            asansörler.add(asansörthread3);
+           asansörler.add(asansörthread4);
+            asansörler.add(asansörthread5);
+            
+            asansörthread1.mod=true;
+            GirisThread giris=new GirisThread();
+            giris.start();
+            CikisThread cikis=new CikisThread();
+            cikis.start();
+            KontrolThread kontrol=new KontrolThread();
+            kontrol.start();
+            
+           asansörthread1.start();
+         
+            asansörthread2.start();
+        
+            asansörthread3.start();
+       
+            asansörthread4.start();
+           
+            asansörthread5.start();
+         arayüz.setVisible(true);
+       
+            while(true){
+             Thread.sleep(100);
+             ArayüzDoldur();       
+        
+    }       
+       
+    }
+
+    public static void ArayüzDoldur() throws InterruptedException{
+        //Arayüz doldururken listelere ulaşmaya çalıştığı için hata veriyor.Mecburen semaphore koyuyoruz
+        semaphoregenel.acquire();
+        int icindekikisisayisi = 0;
+        int icindekikisisayisi1=0;
+        int icindekikisisayisi2=0;
+        int icindekikisisayisi3=0;
+        int icindekikisisayisi4=0;
+        int kuyruktakikisisayisi1=0;
+        int kuyruktakikisisayisi2=0;
+        int kuyruktakikisisayisi3=0;
+        int kuyruktakikisisayisi4=0;
+        int toplamkisisayisi1=0;
+        int toplamkisisayisi2=0;
+        int toplamkisisayisi3=0;
+        int toplamkisisayisi4=0;
+        String icindekilerstring = "";
+        String icindekilerstringgiris= "";
+        String icindekilerstringgiris1= "";
+        String icindekilerstringgiris2= "";
+        String icindekilerstringgiris3= "";
+         String icindekilerstringgiris4= "";
+          arayüz.AktifMi.setText(Boolean.toString(asansörthread1.mod));
+          arayüz.ModDurumu.setText(Boolean.toString(asansörthread1.mod));
+          arayüz.HangiKat.setText(Integer.toString(asansörthread1.kat));
+          arayüz.HedefKat.setText(Integer.toString(asansörthread1.hedefkat));
+          arayüz.Yön.setText(asansörthread1.yön);
+          arayüz.Kapasite.setText("10");
+        
+          for(int i=0;i<asansörthread1.icindekiler.size();i++){
+              icindekikisisayisi+=asansörthread1.icindekiler.get(i).kisiler;
+              icindekilerstring+=" ["+asansörthread1.icindekiler.get(i).kisiler+","+asansörthread1.icindekiler.get(i).kat+"] ";
+          }
+          
+          arayüz.BinenKisiSayisi.setText(Integer.toString(icindekikisisayisi));
+          arayüz.icindekiler.setText(icindekilerstring);
+          
+          if(asansörthread2.mod){
+            icindekikisisayisi = 0;
+         icindekilerstring = "";
+          arayüz.AktifMi1.setText(Boolean.toString(asansörthread2.mod));
+          arayüz.ModDurumu1.setText(Boolean.toString(asansörthread2.mod));
+          arayüz.HangiKat1.setText(Integer.toString(asansörthread2.kat));
+          arayüz.HedefKat1.setText(Integer.toString(asansörthread2.hedefkat));
+          arayüz.Yön1.setText(asansörthread2.yön);
+          arayüz.Kapasite1.setText("10");
+          for(int i=0;i<asansörthread2.icindekiler.size();i++){
+              icindekikisisayisi+=asansörthread2.icindekiler.get(i).kisiler;
+              icindekilerstring+=" ["+asansörthread2.icindekiler.get(i).kisiler+","+asansörthread2.icindekiler.get(i).kat+"] ";
+          }
+          arayüz.BinenKisiSayisi1.setText(Integer.toString(icindekikisisayisi));
+          arayüz.icindekiler1.setText(icindekilerstring);  
+          }
+          else {
+          arayüz.AktifMi1.setText(Boolean.toString(asansörthread2.mod));
+          arayüz.ModDurumu1.setText(Boolean.toString(asansörthread2.mod));
+          }
+          
+           if(asansörthread3.mod){
+            icindekikisisayisi = 0;
+         icindekilerstring = "";
+          arayüz.AktifMi2.setText(Boolean.toString(asansörthread3.mod));
+          arayüz.ModDurumu2.setText(Boolean.toString(asansörthread3.mod));
+          arayüz.HangiKat2.setText(Integer.toString(asansörthread3.kat));
+          arayüz.HedefKat2.setText(Integer.toString(asansörthread3.hedefkat));
+          arayüz.Yön2.setText(asansörthread3.yön);
+          arayüz.Kapasite2.setText("10");
+          for(int i=0;i<asansörthread3.icindekiler.size();i++){
+              icindekikisisayisi+=asansörthread3.icindekiler.get(i).kisiler;
+              icindekilerstring+=" ["+asansörthread3.icindekiler.get(i).kisiler+","+asansörthread3.icindekiler.get(i).kat+"] ";
+          }
+          arayüz.BinenKisiSayisi2.setText(Integer.toString(icindekikisisayisi));
+          arayüz.icindekiler2.setText(icindekilerstring);  
+          }
+          else {
+          arayüz.AktifMi2.setText(Boolean.toString(asansörthread3.mod));
+          arayüz.ModDurumu2.setText(Boolean.toString(asansörthread3.mod));
+          }
+            
+         if(asansörthread4.mod){
+            icindekikisisayisi = 0;
+         icindekilerstring = "";
+          arayüz.AktifMi3.setText(Boolean.toString(asansörthread4.mod));
+          arayüz.ModDurumu3.setText(Boolean.toString(asansörthread4.mod));
+          arayüz.HangiKat3.setText(Integer.toString(asansörthread4.kat));
+          arayüz.HedefKat3.setText(Integer.toString(asansörthread4.hedefkat));
+          arayüz.Yön3.setText(asansörthread4.yön);
+          arayüz.Kapasite3.setText("10");
+          for(int i=0;i<asansörthread4.icindekiler.size();i++){
+              icindekikisisayisi+=asansörthread4.icindekiler.get(i).kisiler;
+              icindekilerstring+=" ["+asansörthread4.icindekiler.get(i).kisiler+","+asansörthread4.icindekiler.get(i).kat+"] ";
+          }
+          arayüz.BinenKisiSayisi3.setText(Integer.toString(icindekikisisayisi));
+          arayüz.icindekiler3.setText(icindekilerstring);  
+          }
+          else {
+          arayüz.AktifMi3.setText(Boolean.toString(asansörthread4.mod));
+          arayüz.ModDurumu3.setText(Boolean.toString(asansörthread4.mod));
+          }
+         
+           if(asansörthread5.mod){
+            icindekikisisayisi = 0;
+         icindekilerstring = "";
+          arayüz.AktifMi4.setText(Boolean.toString(asansörthread5.mod));
+          arayüz.ModDurumu4.setText(Boolean.toString(asansörthread5.mod));
+          arayüz.HangiKat4.setText(Integer.toString(asansörthread5.kat));
+          arayüz.HedefKat4.setText(Integer.toString(asansörthread5.hedefkat));
+          arayüz.Yön4.setText(asansörthread5.yön);
+          arayüz.Kapasite4.setText("10");
+          for(int i=0;i<asansörthread5.icindekiler.size();i++){
+              icindekikisisayisi+=asansörthread5.icindekiler.get(i).kisiler;
+              icindekilerstring+=" ["+asansörthread5.icindekiler.get(i).kisiler+","+asansörthread5.icindekiler.get(i).kat+"] ";
+          }
+          arayüz.BinenKisiSayisi4.setText(Integer.toString(icindekikisisayisi));
+          arayüz.icindekiler4.setText(icindekilerstring);  
+          }
+          else {
+          arayüz.AktifMi4.setText(Boolean.toString(asansörthread5.mod));
+          arayüz.ModDurumu4.setText(Boolean.toString(asansörthread5.mod));
+          }
+          arayüz.Cikis.setText(Integer.toString(katlar.get(0).cikiskisisayisi));
+          arayüz.KuyrukKisiSayisi.setText(Integer.toString(katlar.get(0).kisisayisi)); //0.kata gelenlerin sayısı
+          
+          for(int i=0;i<Avm.katlar.get(0).Kuyruk.size();i++){
+      
+              icindekilerstringgiris+=" ["+Avm.katlar.get(0).Kuyruk.get(i).kisiler+","+Avm.katlar.get(0).Kuyruk.get(i).kat+"] ";
+              
+          }
+               arayüz.girisicindekiler.setText(icindekilerstringgiris);
+          if(Avm.katlar.get(1).Kuyruk.size()>0){
+               for(int i=0;i<Avm.katlar.get(1).Kuyruk.size();i++){
+       kuyruktakikisisayisi1+=Avm.katlar.get(1).Kuyruk.get(i).kisiler;
+              icindekilerstringgiris1+=" ["+Avm.katlar.get(1).Kuyruk.get(i).kisiler+","+Avm.katlar.get(1).Kuyruk.get(i).kat+"] ";
+          }
+               arayüz.girisicindekiler1.setText(icindekilerstringgiris1);
+         }
+          else {
+                       arayüz.girisicindekiler1.setText("");
+                  }
+              
+                if(Avm.katlar.get(2).Kuyruk.size()>0){
+               for(int i=0;i<Avm.katlar.get(2).Kuyruk.size();i++){
+                    kuyruktakikisisayisi2+=Avm.katlar.get(2).Kuyruk.get(i).kisiler;
+              icindekilerstringgiris2+=" ["+Avm.katlar.get(2).Kuyruk.get(i).kisiler+","+Avm.katlar.get(2).Kuyruk.get(i).kat+"] ";
+          }
+               arayüz.girisicindekiler2.setText(icindekilerstringgiris2);
+                }
+                else {
+                       arayüz.girisicindekiler2.setText("");
+                  }
+                 if(Avm.katlar.get(3).Kuyruk.size()>0){
+               for(int i=0;i<Avm.katlar.get(3).Kuyruk.size();i++){
+                    kuyruktakikisisayisi3+=Avm.katlar.get(3).Kuyruk.get(i).kisiler;
+              icindekilerstringgiris3+=" ["+Avm.katlar.get(3).Kuyruk.get(i).kisiler+","+Avm.katlar.get(3).Kuyruk.get(i).kat+"] ";
+          }
+               arayüz.girisicindekiler3.setText(icindekilerstringgiris3);
+                 }
+                 else {
+                       arayüz.girisicindekiler3.setText("");
+                  }
+                  if(Avm.katlar.get(4).Kuyruk.size()>0){
+               for(int i=0;i<Avm.katlar.get(4).Kuyruk.size();i++){
+               kuyruktakikisisayisi4+=Avm.katlar.get(4).Kuyruk.get(i).kisiler;
+              icindekilerstringgiris4+=" ["+Avm.katlar.get(4).Kuyruk.get(i).kisiler+","+Avm.katlar.get(4).Kuyruk.get(i).kat+"] ";
+          }
+               
+               arayüz.girisicindekiler4.setText(icindekilerstringgiris4);
+                  }
+                  else {
+                       arayüz.girisicindekiler4.setText("");
+                  }
+                          toplamkisisayisi1=katlar.get(1).kisisayisi+kuyruktakikisisayisi1;
+                          toplamkisisayisi2=katlar.get(2).kisisayisi+kuyruktakikisisayisi2;
+                          toplamkisisayisi3=katlar.get(3).kisisayisi+kuyruktakikisisayisi3;
+                          toplamkisisayisi4=katlar.get(4).kisisayisi+kuyruktakikisisayisi4;
+                        
+           arayüz.ToplamKisiSayisi.setText(Integer.toString(toplamkisisayisi1));
+            arayüz.ToplamKisiSayisi1.setText(Integer.toString(toplamkisisayisi2));
+             arayüz.ToplamKisiSayisi2.setText(Integer.toString(toplamkisisayisi3));
+              arayüz.ToplamKisiSayisi3.setText(Integer.toString(toplamkisisayisi4));
+
+             for(int i=0;i<Avm.katlar.get(1).Kuyruk.size();i++){
+              icindekikisisayisi1+=Avm.katlar.get(1).Kuyruk.get(i).kisiler;
+             
+          }   
+              
+              
+              arayüz.KuyrukKisiSayisi1.setText(Integer.toString(icindekikisisayisi1));
+              
+               for(int i=0;i<Avm.katlar.get(2).Kuyruk.size();i++){
+              icindekikisisayisi2+=Avm.katlar.get(2).Kuyruk.get(i).kisiler;
+             
+          }   
+              
+              
+              arayüz.KuyrukKisiSayisi2.setText(Integer.toString(icindekikisisayisi2));
+              
+               for(int i=0;i<Avm.katlar.get(3).Kuyruk.size();i++){
+              icindekikisisayisi3+=Avm.katlar.get(3).Kuyruk.get(i).kisiler;
+             
+          }   
+              
+              
+              arayüz.KuyrukKisiSayisi3.setText(Integer.toString(icindekikisisayisi3));
+              
+               for(int i=0;i<Avm.katlar.get(4).Kuyruk.size();i++){
+              icindekikisisayisi4+=Avm.katlar.get(4).Kuyruk.get(i).kisiler;
+             
+          }   
+              
+              
+              arayüz.KuyrukKisiSayisi4.setText(Integer.toString(icindekikisisayisi4));
+              semaphoregenel.release();
+          }
+          
+       
+}
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package yazlab1proje2;
+
+import java.util.Random;
+
+/**
+ *
+ * @author OnurOkyay
+ */
+public class CikisThread extends Thread{
+        @Override
+    public void run() {
+        int rastgelekisisayisi;
+        int rastgelekat;
+        int cikissayisi;
+        Random r=new Random();
+        while(true){
+           try{
+          Thread.sleep(1000);
+         cikissayisi= r.nextInt(5)+1;
+         if(cikissayisi>Avm.katlar.get(0).cikiskisisayisi){
+             cikissayisi=Avm.katlar.get(0).cikiskisisayisi;
+         }
+          Avm.semaphoregenel.acquire();
+          Avm.katlar.get(0).cikiskisisayisi-=cikissayisi;
+          rastgelekat=r.nextInt(4)+1;
+          rastgelekisisayisi=r.nextInt(5)+1;
+      
+          if(Avm.katlar.get(rastgelekat).kisisayisi>0){
+              
+              Avm.asansördenkisialmasemafor.acquire();
+              
+          if(Avm.katlar.get(rastgelekat).kisisayisi<=rastgelekisisayisi){
+              rastgelekisisayisi=Avm.katlar.get(rastgelekat).kisisayisi;
+          }
+          
+          if(rastgelekisisayisi >0){
+              
+               Avm.katlar.get(rastgelekat).Kuyruk.add(new Binenler(rastgelekisisayisi,0));
+               Avm.katlar.get(rastgelekat).kisisayisi-=rastgelekisisayisi;
+          }    
+          Avm.asansördenkisialmasemafor.release();
+          }
+           Avm.semaphoregenel.release();
+         
+          
+      }
+      catch(InterruptedException ex){
+          System.err.println(ex);
+          
+      }  
+        }
+     
+        
+    }
+}
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package yazlab1proje2;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class AsansörThread extends Thread {
+
+    String name;
+    public boolean mod = false;
+    public boolean kat1yolcusu = false;
+    public boolean kat2yolcusu = false;
+    public boolean kat3yolcusu = false;
+    public boolean kat4yolcusu = false;
+    public boolean inisyolcusu = false;
+    public int kat = 0;
+    public int hedefkat;
+    public String yön = "yukari";
+    public int kapasite = 0;
+    public Semaphore semaforkat0, semaforkat1yukari, semaforkat2yukari, semaforkat3yukari, semaforkat4yukari, semaforkat1asagi, semaforkat2asagi, semaforkat3asagi, semaforkat4asagi;
+    ArrayList<Binenler> icindekiler = new ArrayList<Binenler>();
+
+    @Override
+    public void run() {
+        int a = 0;
+        while (true) {
+            try {
+                Thread.sleep(0);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AsansörThread.class.getName()).log(Level.SEVERE, null, ex);
+            } //Bu kısım olmazsa while çalışmıyor,sout da koyabilirsin veya böyle bir şeyler.
+            if (mod == true) {
+                //System.out.println("İFİN İCİ NAME:"+this.name);
+                try {
+                    //Thread.sleep(200);
+                    //AsansörHareket();
+                    AsansörKontrollüHareket();
+
+                } catch (InterruptedException ex) {
+                    System.err.println(ex);
+
+                }
+            }
+
+        }
+
+    }
+
+    public AsansörThread(String name) {
+        this.name = name;
+
+    }
+
+    public void AsansörKontrollüHareket() throws InterruptedException {
+
+        if (this.kat == 0 && this.yön == "yukari" && Avm.katlar.get(0).Kuyruk.size() > 0) {
+            Avm.semaphoregenel.acquire();
+            //yolcu al
+            int eklenecekkisi;
+            while (kapasite < 10 && Avm.katlar.get(0).Kuyruk.size() > 0) {
+//                System.out.println("Kapasite:"+kapasite);
+                if (kapasite + Avm.katlar.get(0).Kuyruk.get(0).kisiler > 10) {
+                    eklenecekkisi = 10 - kapasite;
+                    icindekiler.add(new Binenler(eklenecekkisi, Avm.katlar.get(0).Kuyruk.get(0).kat));
+                    kapasite += eklenecekkisi;
+                    Avm.katlar.get(0).kisisayisi -= eklenecekkisi;
+                    Avm.katlar.get(0).Kuyruk.get(0).kisiler -= eklenecekkisi;
+                } else {
+                    icindekiler.add(Avm.katlar.get(0).Kuyruk.get(0));
+                    kapasite += Avm.katlar.get(0).Kuyruk.get(0).kisiler;
+                    Avm.katlar.get(0).kisisayisi -= Avm.katlar.get(0).Kuyruk.get(0).kisiler;
+                    Avm.katlar.get(0).Kuyruk.remove(0);
+                }
+            }
+//            System.out.println("Yukarı çıkıyorum 0.katta Şu kadar kişi var:"+Avm.katlar.get(0).kisisayisi+" Asansörün Kapasitesi"+kapasite);,
+ Avm.semaphoregenel.release();
+        }
+
+        for (int i = 0; i < icindekiler.size(); i++) {
+            if (icindekiler.get(i).kat == 1) {
+                kat1yolcusu = true;
+            }
+            if (icindekiler.get(i).kat == 2) {
+                kat2yolcusu = true;
+            }
+            if (icindekiler.get(i).kat == 3) {
+                kat3yolcusu = true;
+            }
+            if (icindekiler.get(i).kat == 4) {
+                kat4yolcusu = true;
+            }
+        }
+
+        //Artık içindekilerin hangi kata gideceğini bliyoruz.
+        if (kat1yolcusu = true) {
+            this.hedefkat=1;
+            Thread.sleep(200);
+             Avm.semaphoregenel.acquire();
+            this.yön = "yukari";
+            kat = 1; //Kat 0 dan kat 1 e geldik.         
+            //Kat 1 e yolcuları bırak,eğer diğer katlarda bırakacağın varsa yukarı devam et,veya üst katlardan aşağı inmek isteyen yolcu varsa.(?)  
+
+            for (int i = 0; i < icindekiler.size(); i++) {
+                if (icindekiler.get(i).kat == kat) {
+                    Avm.katlar.get(kat).kisisayisi += icindekiler.get(i).kisiler;
+                    kapasite -= icindekiler.get(i).kisiler;
+
+                    icindekiler.remove(i);
+                    i--;
+                }
+
+            }
+
+            kat1yolcusu = false;
+ Avm.semaphoregenel.release();
+            if (kat2yolcusu == false && kat3yolcusu == false && kat4yolcusu == false) {
+                //Eğer yukarı gidecek yolcu yoksa aşağı inecek yolcu var mı diye kontrol et.
+                if (Avm.katlar.get(4).Kuyruk.size() > 0 && this.kapasite < 10) {//Demek ki aşağı inecek yolcu var.O zaman kat 4 e git
+                     this.hedefkat=4;
+                    Thread.sleep((4-kat)*200);
+                     Avm.semaphoregenel.acquire();
+                    this.yön = "asagi";
+                    this.kat = 4;
+                    //Kattan alma işlemi yap ve yavaşça kat 0 a doğru ilerle.
+                    int asagieklenecekkisi;
+
+                    while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                        System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+
+                        if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                            asagieklenecekkisi = 10 - kapasite;
+                            icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                            Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                            kapasite += asagieklenecekkisi;
+                            //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                        } else {
+                            icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                            kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            Avm.katlar.get(kat).Kuyruk.remove(0);
+                        }
+
+                    }
+                   
+                     Avm.semaphoregenel.release();
+                }
+                if (Avm.katlar.get(3).Kuyruk.size() > 0 && this.kapasite < 10) {
+                    this.hedefkat=3;
+                    Thread.sleep(Math.abs(3-kat)*200);
+                     Avm.semaphoregenel.acquire();
+                    this.yön = "asagi";
+                    this.kat = 3;
+                    int asagieklenecekkisi;
+                    while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                        System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+
+                        if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                            asagieklenecekkisi = 10 - kapasite;
+                            icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                            Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                            kapasite += asagieklenecekkisi;
+                            //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                        } else {
+                            icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                            kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            Avm.katlar.get(kat).Kuyruk.remove(0);
+                        }
+
+                    }
+                     Avm.semaphoregenel.release();
+                }
+                if (Avm.katlar.get(2).Kuyruk.size() > 0 && this.kapasite < 10) {
+                    this.hedefkat=2;
+                     Thread.sleep(Math.abs(2-kat)*200);
+                      Avm.semaphoregenel.acquire();
+                    this.yön = "asagi";
+                    this.kat = 2;
+                    int asagieklenecekkisi;
+                    while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                        System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+
+                        if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                            asagieklenecekkisi = 10 - kapasite;
+                            icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                            Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                            kapasite += asagieklenecekkisi;
+                            //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                        } else {
+                            icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                            kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            Avm.katlar.get(kat).Kuyruk.remove(0);
+                        }
+
+                    }
+
+                     Avm.semaphoregenel.release();
+                }
+                if (Avm.katlar.get(1).Kuyruk.size() > 0 && this.kapasite < 10) {
+                    this.hedefkat=1;
+                      Thread.sleep(Math.abs(1-kat)*200);
+                       Avm.semaphoregenel.acquire();
+                    this.yön = "asagi";
+                    this.kat = 1;
+                    int asagieklenecekkisi;
+                    while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                        System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+
+                        if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                            asagieklenecekkisi = 10 - kapasite;
+                            icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                            Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                            kapasite += asagieklenecekkisi;
+                            //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                        } else {
+                            icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                            kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            Avm.katlar.get(kat).Kuyruk.remove(0);
+                        }
+
+                    }
+                     Avm.semaphoregenel.release();
+                }
+                 if(icindekiler.size()==0 || kapasite==0){
+                     this.hedefkat=0;
+                   Thread.sleep(200);
+                    
+                    this.yön = "yukari";
+                    this.kat = 0;
+               }
+
+                if (icindekiler.size() > 0 || this.kapasite == 10) {//Kat 0 a gidip yolcuları bırak.
+                     this.hedefkat=0;
+                     Thread.sleep(kat*200);
+                      Avm.semaphoregenel.acquire();
+                    this.yön = "yukari";
+                    this.kat = 0;
+                    //Bırakma işlemleri
+                    Avm.katlar.get(0).cikiskisisayisi += kapasite;
+                    icindekiler.clear();
+                    kapasite = 0;
+                    System.out.println("En alta geldi yolcuları bıraktık");
+                    System.out.println("" + kat + ".katta Şu kadar kişi var:" + Avm.katlar.get(kat).kisisayisi + " Asansörün Kapasitesi" + kapasite);
+                    Avm.semaphoregenel.release(); 
+                }
+                
+              
+                  
+            }
+                     
+        }
+        if (kat2yolcusu = true) {
+             this.hedefkat=2;
+            Thread.sleep(Math.abs(2-kat)*200);
+             Avm.semaphoregenel.acquire();
+            this.yön = "yukari";
+            kat = 2;
+            for (int i = 0; i < icindekiler.size(); i++) {
+                if (icindekiler.get(i).kat == kat) {
+                    Avm.katlar.get(kat).kisisayisi += icindekiler.get(i).kisiler;
+                    kapasite -= icindekiler.get(i).kisiler;
+
+                    icindekiler.remove(i);
+                    i--;
+                }
+
+            }
+            
+            kat2yolcusu = false;
+             Avm.semaphoregenel.release();
+            if (kat3yolcusu == false && kat4yolcusu == false) {
+                 if (Avm.katlar.get(4).Kuyruk.size() > 0 && this.kapasite < 10) {//Demek ki aşağı inecek yolcu var.O zaman kat 4 e git
+                      this.hedefkat=4;
+                    Thread.sleep((4-kat)*200);
+                     Avm.semaphoregenel.acquire();
+                    this.yön = "asagi";
+                    this.kat = 4;
+                    //Kattan alma işlemi yap ve yavaşça kat 0 a doğru ilerle.
+                    int asagieklenecekkisi;
+
+                    while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                        System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+
+                        if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                            asagieklenecekkisi = 10 - kapasite;
+                            icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                            Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                            kapasite += asagieklenecekkisi;
+                            //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                        } else {
+                            icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                            kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            Avm.katlar.get(kat).Kuyruk.remove(0);
+                        }
+
+                    }
+                   
+                     Avm.semaphoregenel.release();
+                }
+                if (Avm.katlar.get(3).Kuyruk.size() > 0 && this.kapasite < 10) {
+                     this.hedefkat=3;
+                    Thread.sleep(Math.abs(3-kat)*200);
+                     Avm.semaphoregenel.acquire();
+                    this.yön = "asagi";
+                    this.kat = 3;
+                    int asagieklenecekkisi;
+                    while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                        System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+
+                        if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                            asagieklenecekkisi = 10 - kapasite;
+                            icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                            Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                            kapasite += asagieklenecekkisi;
+                            //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                        } else {
+                            icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                            kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            Avm.katlar.get(kat).Kuyruk.remove(0);
+                        }
+
+                    }
+                     Avm.semaphoregenel.release();
+                }
+                if (Avm.katlar.get(2).Kuyruk.size() > 0 && this.kapasite < 10) {
+                     this.hedefkat=2;
+                     Thread.sleep(Math.abs(2-kat)*200);
+                      Avm.semaphoregenel.acquire();
+                    this.yön = "asagi";
+                    this.kat = 2;
+                    int asagieklenecekkisi;
+                    while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                        System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+
+                        if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                            asagieklenecekkisi = 10 - kapasite;
+                            icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                            Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                            kapasite += asagieklenecekkisi;
+                            //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                        } else {
+                            icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                            kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            Avm.katlar.get(kat).Kuyruk.remove(0);
+                        }
+
+                    }
+
+                     Avm.semaphoregenel.release();
+                }
+                if (Avm.katlar.get(1).Kuyruk.size() > 0 && this.kapasite < 10) {
+                     this.hedefkat=1;
+                      Thread.sleep(Math.abs(1-kat)*200);
+                       Avm.semaphoregenel.acquire();
+                    this.yön = "asagi";
+                    this.kat = 1;
+                    int asagieklenecekkisi;
+                    while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                        System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+
+                        if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                            asagieklenecekkisi = 10 - kapasite;
+                            icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                            Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                            kapasite += asagieklenecekkisi;
+                            //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                        } else {
+                            icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                            kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            Avm.katlar.get(kat).Kuyruk.remove(0);
+                        }
+
+                    }
+                     Avm.semaphoregenel.release();
+                }
+                
+                if(icindekiler.size()==0 || kapasite==0){
+                    this.hedefkat=0;
+                   Thread.sleep(400);
+                    
+                    this.yön = "yukari";
+                    this.kat = 0;
+               }
+                
+                if (icindekiler.size() > 0 || this.kapasite == 10) {//Kat 0 a gidip yolcuları bırak.
+                        this.hedefkat=0;
+                     Thread.sleep(kat*200);
+                      Avm.semaphoregenel.acquire();
+                    this.yön = "yukari";
+                    this.kat = 0;
+                    //Bırakma işlemleri
+                    Avm.katlar.get(0).cikiskisisayisi += kapasite;
+                    icindekiler.clear();
+                    kapasite = 0;
+                    System.out.println("En alta geldi yolcuları bıraktık");
+                    System.out.println("" + kat + ".katta Şu kadar kişi var:" + Avm.katlar.get(kat).kisisayisi + " Asansörün Kapasitesi" + kapasite);
+                     Avm.semaphoregenel.release();
+                }
+                
+                
+                  
+            }
+
+            
+            
+        }
+        if (kat3yolcusu = true) {
+             this.hedefkat=3;
+            Thread.sleep(Math.abs(3-kat)*200);
+             Avm.semaphoregenel.acquire();
+            this.yön = "yukari";
+            kat = 3;
+            for (int i = 0; i < icindekiler.size(); i++) {
+                if (icindekiler.get(i).kat == kat) {
+                    Avm.katlar.get(kat).kisisayisi += icindekiler.get(i).kisiler;
+                    kapasite -= icindekiler.get(i).kisiler;
+
+                    icindekiler.remove(i);
+                    i--;
+                }
+
+            }
+            kat3yolcusu = false;
+             Avm.semaphoregenel.release();
+            if (kat4yolcusu == false) {
+                    //Eğer yukarı gidecek yolcu yoksa aşağı inecek yolcu var mı diye kontrol et.
+                if (Avm.katlar.get(4).Kuyruk.size() > 0 && this.kapasite < 10) {//Demek ki aşağı inecek yolcu var.O zaman kat 4 e git
+                       this.hedefkat=4;
+                    Thread.sleep((4-kat)*200);
+                     Avm.semaphoregenel.acquire();
+                    this.yön = "asagi";
+                    this.kat = 4;
+                    //Kattan alma işlemi yap ve yavaşça kat 0 a doğru ilerle.
+                    int asagieklenecekkisi;
+
+                    while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                        System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+
+                        if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                            asagieklenecekkisi = 10 - kapasite;
+                            icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                            Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                            kapasite += asagieklenecekkisi;
+                            //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                        } else {
+                            icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                            kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            Avm.katlar.get(kat).Kuyruk.remove(0);
+                        }
+
+                    }
+                   
+                     Avm.semaphoregenel.release();
+                }
+                if (Avm.katlar.get(3).Kuyruk.size() > 0 && this.kapasite < 10) {
+                           this.hedefkat=3;
+                    Thread.sleep(Math.abs(3-kat)*200);
+                     Avm.semaphoregenel.acquire();
+                    this.yön = "asagi";
+                    this.kat = 3;
+                    int asagieklenecekkisi;
+                    while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                        System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+
+                        if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                            asagieklenecekkisi = 10 - kapasite;
+                            icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                            Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                            kapasite += asagieklenecekkisi;
+                            //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                        } else {
+                            icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                            kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            Avm.katlar.get(kat).Kuyruk.remove(0);
+                        }
+
+                    }
+                     Avm.semaphoregenel.release();
+                }
+                if (Avm.katlar.get(2).Kuyruk.size() > 0 && this.kapasite < 10) {
+                           this.hedefkat=2;
+                     Thread.sleep(Math.abs(2-kat)*200);
+                      Avm.semaphoregenel.acquire();
+                    this.yön = "asagi";
+                    this.kat = 2;
+                    int asagieklenecekkisi;
+                    while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                        System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+
+                        if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                            asagieklenecekkisi = 10 - kapasite;
+                            icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                            Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                            kapasite += asagieklenecekkisi;
+                            //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                        } else {
+                            icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                            kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            Avm.katlar.get(kat).Kuyruk.remove(0);
+                        }
+
+                    }
+
+                     Avm.semaphoregenel.release();
+                }
+                if (Avm.katlar.get(1).Kuyruk.size() > 0 && this.kapasite < 10) {
+                           this.hedefkat=1;
+                      Thread.sleep(Math.abs(1-kat)*200);
+                       Avm.semaphoregenel.acquire();
+                    this.yön = "asagi";
+                    this.kat = 1;
+                    int asagieklenecekkisi;
+                    while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                        System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+
+                        if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                            asagieklenecekkisi = 10 - kapasite;
+                            icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                            Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                            kapasite += asagieklenecekkisi;
+                            //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                        } else {
+                            icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                            kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            Avm.katlar.get(kat).Kuyruk.remove(0);
+                        }
+
+                    }
+                     Avm.semaphoregenel.release();
+                }
+                
+                if(icindekiler.size()==0 || kapasite==0){
+                           this.hedefkat=0;
+                   Thread.sleep(600);
+                    
+                    this.yön = "yukari";
+                    this.kat = 0;
+               }
+
+                if (icindekiler.size() > 0 || this.kapasite == 10) {//Kat 0 a gidip yolcuları bırak.
+                           this.hedefkat=0;
+                     Thread.sleep(kat*200);
+                      Avm.semaphoregenel.acquire();
+                    this.yön = "yukari";
+                    this.kat = 0;
+                    //Bırakma işlemleri
+                    Avm.katlar.get(0).cikiskisisayisi += kapasite;
+                    icindekiler.clear();
+                    kapasite = 0;
+                    System.out.println("En alta geldi yolcuları bıraktık");
+                    System.out.println("" + kat + ".katta Şu kadar kişi var:" + Avm.katlar.get(kat).kisisayisi + " Asansörün Kapasitesi" + kapasite);
+                    Avm.semaphoregenel.release(); 
+                }
+                  
+            }
+
+        }
+        
+        if (kat4yolcusu = true) {
+             this.hedefkat=4;
+            Thread.sleep(Math.abs(4-kat)*200);
+             Avm.semaphoregenel.acquire();
+            this.yön = "yukari";
+            kat = 4;
+            for (int i = 0; i < icindekiler.size(); i++) {
+                if (icindekiler.get(i).kat == kat) {
+                    Avm.katlar.get(kat).kisisayisi += icindekiler.get(i).kisiler;
+                    kapasite -= icindekiler.get(i).kisiler;
+
+                    icindekiler.remove(i);
+                    i--;
+                }
+
+            }
+            kat4yolcusu = false;
+             Avm.semaphoregenel.release();
+            
+            //Önce bırakma işlemlerini yap
+            //Aşağı doğru in
+                //Eğer yukarı gidecek yolcu yoksa aşağı inecek yolcu var mı diye kontrol et.
+                if (Avm.katlar.get(4).Kuyruk.size() > 0 && this.kapasite < 10) {//Demek ki aşağı inecek yolcu var.O zaman kat 4 e git
+                       this.hedefkat=4;
+                    Thread.sleep((4-kat)*200);
+                     Avm.semaphoregenel.acquire();
+                    this.yön = "asagi";
+                    this.kat = 4;
+                    //Kattan alma işlemi yap ve yavaşça kat 0 a doğru ilerle.
+                    int asagieklenecekkisi;
+
+                    while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                        System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+
+                        if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                            asagieklenecekkisi = 10 - kapasite;
+                            icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                            Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                            kapasite += asagieklenecekkisi;
+                            //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                        } else {
+                            icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                            kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            Avm.katlar.get(kat).Kuyruk.remove(0);
+                        }
+
+                    }
+                   
+                     Avm.semaphoregenel.release();
+                }
+                if (Avm.katlar.get(3).Kuyruk.size() > 0 && this.kapasite < 10) {
+                     this.hedefkat=3;
+                    Thread.sleep(Math.abs(3-kat)*200);
+                     Avm.semaphoregenel.acquire();
+                    this.yön = "asagi";
+                    this.kat = 3;
+                    int asagieklenecekkisi;
+                    while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                        System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+
+                        if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                            asagieklenecekkisi = 10 - kapasite;
+                            icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                            Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                            kapasite += asagieklenecekkisi;
+                            //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                        } else {
+                            icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                            kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            Avm.katlar.get(kat).Kuyruk.remove(0);
+                        }
+
+                    }
+                     Avm.semaphoregenel.release();
+                }
+                if (Avm.katlar.get(2).Kuyruk.size() > 0 && this.kapasite < 10) {
+                     this.hedefkat=2;
+                     Thread.sleep(Math.abs(2-kat)*200);
+                      Avm.semaphoregenel.acquire();
+                    this.yön = "asagi";
+                    this.kat = 2;
+                    int asagieklenecekkisi;
+                    while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                        System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+
+                        if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                            asagieklenecekkisi = 10 - kapasite;
+                            icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                            Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                            kapasite += asagieklenecekkisi;
+                            //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                        } else {
+                            icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                            kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            Avm.katlar.get(kat).Kuyruk.remove(0);
+                        }
+
+                    }
+
+                     Avm.semaphoregenel.release();
+                }
+                if (Avm.katlar.get(1).Kuyruk.size() > 0 && this.kapasite < 10) {
+                     this.hedefkat=1;
+                      Thread.sleep(Math.abs(1-kat)*200);
+                       Avm.semaphoregenel.acquire();
+                    this.yön = "asagi";
+                    this.kat = 1;
+                    int asagieklenecekkisi;
+                    while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                        System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+
+                        if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                            asagieklenecekkisi = 10 - kapasite;
+                            icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                            Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                            kapasite += asagieklenecekkisi;
+                            //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                        } else {
+                            icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                            kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                            Avm.katlar.get(kat).Kuyruk.remove(0);
+                        }
+
+                    }
+                     Avm.semaphoregenel.release();
+                }
+                
+                if(icindekiler.size()==0 || kapasite==0){
+                     this.hedefkat=0;
+                   Thread.sleep(800);
+                    
+                    this.yön = "yukari";
+                    this.kat = 0;
+               }
+
+                if (icindekiler.size() > 0 || this.kapasite == 10) {//Kat 0 a gidip yolcuları bırak.
+                     this.hedefkat=0;
+                     Thread.sleep(kat*200);
+                      Avm.semaphoregenel.acquire();
+                    this.yön = "yukari";
+                    this.kat = 0;
+                    //Bırakma işlemleri
+                    Avm.katlar.get(0).cikiskisisayisi += kapasite;
+                    icindekiler.clear();
+                    kapasite = 0;
+                    System.out.println("En alta geldi yolcuları bıraktık");
+                    System.out.println("" + kat + ".katta Şu kadar kişi var:" + Avm.katlar.get(kat).kisisayisi + " Asansörün Kapasitesi" + kapasite);
+                    Avm.semaphoregenel.release(); 
+                }
+                  
+        }
+
+    }
+
+    public void AsansörHareket() throws InterruptedException {
+        Avm.semaphoregenel.acquire();
+        if (yön == "asagi" && kat == 0) {
+
+            Avm.katlar.get(0).cikiskisisayisi += kapasite;
+            icindekiler.clear();
+            yön = "yukari";
+            hedefkat = 1;
+            kapasite = 0;
+            System.out.println("En alta geldi yolcuları bıraktık");
+            System.out.println("" + kat + ".katta Şu kadar kişi var:" + Avm.katlar.get(kat).kisisayisi + " Asansörün Kapasitesi" + kapasite);
+
+        }
+
+        if (yön == "yukari" && kat == 0 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+            Avm.semaphorekat0.acquire();
+            int eklenecekkisi;
+            while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+//                System.out.println("Kapasite:"+kapasite);
+                if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                    eklenecekkisi = 10 - kapasite;
+                    icindekiler.add(new Binenler(eklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                    kapasite += eklenecekkisi;
+                    Avm.katlar.get(0).kisisayisi -= eklenecekkisi;
+                    Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= eklenecekkisi;
+
+                } else {
+                    icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                    kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                    Avm.katlar.get(0).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                    Avm.katlar.get(kat).Kuyruk.remove(0);
+
+                }
+            }
+            hedefkat = 1;
+            kat++;
+            System.out.println("Yukarı çıkıyorum 0.katta Şu kadar kişi var:" + Avm.katlar.get(0).kisisayisi + " Asansörün Kapasitesi" + kapasite);
+
+            Avm.semaphorekat0.release();
+
+        }
+
+        if (yön == "yukari" && kat != 0) {
+
+            if (kat == 1) {
+
+                Avm.semaphorekat1yukari.acquire();
+
+            } else if (kat == 2) {
+                Avm.semaphorekat2yukari.acquire();
+            } else if (kat == 3) {
+                Avm.semaphorekat3yukari.acquire();
+            } else if (kat == 4) {
+                Avm.semaphorekat4yukari.acquire();
+            }
+
+            System.out.println("Yukari cikiyorum");
+            for (int i = 0; i < icindekiler.size(); i++) {
+                if (icindekiler.get(i).kat == kat) {
+                    Avm.katlar.get(kat).kisisayisi += icindekiler.get(i).kisiler;
+                    kapasite -= icindekiler.get(i).kisiler;
+
+                    icindekiler.remove(i);
+                    i--;
+                }
+
+            }
+            System.out.println("Yukarı çıkıyorum " + kat + ".katta Şu kadar kişi var:" + Avm.katlar.get(kat).kisisayisi + " Asansörün Kapasitesi" + kapasite);
+            hedefkat = kat + 1;
+
+            if (kat == 1) {
+                Avm.semaphorekat1yukari.release();
+            } else if (kat == 2) {
+                Avm.semaphorekat2yukari.release();
+            } else if (kat == 3) {
+                Avm.semaphorekat3yukari.release();
+            } else if (kat == 4) {
+                Avm.semaphorekat4yukari.release();
+            }
+
+            kat++;
+        }
+
+        if (kat == 5) {
+            System.out.println("5.kata geldim");
+            yön = "asagi";
+
+            kat--;
+        }
+
+        if (yön == "asagi" && kat != 0) {
+
+            if (kat == 1) {
+                Avm.semaphorekat1asagi.acquire();
+            } else if (kat == 2) {
+                Avm.semaphorekat2asagi.acquire();
+            } else if (kat == 3) {
+                Avm.semaphorekat3asagi.acquire();
+            } else if (kat == 4) {
+                Avm.semaphorekat4asagi.acquire();
+            }
+            hedefkat = kat - 1;
+            if (Avm.katlar.get(kat).Kuyruk.size() <= 0) {
+                if (kat == 1) {
+                    Avm.semaphorekat1asagi.release();
+                } else if (kat == 2) {
+                    Avm.semaphorekat2asagi.release();
+                } else if (kat == 3) {
+                    Avm.semaphorekat3asagi.release();
+                } else if (kat == 4) {
+                    Avm.semaphorekat4asagi.release();
+                }
+
+                kat--;
+            } else {
+                System.out.println("Aşağı iniyorum " + kat + ".katta Şu kadar kişi var:" + Avm.katlar.get(kat).kisisayisi);
+
+                int asagieklenecekkisi;
+                Avm.asansördenkisialmasemafor.acquire();
+                while (kapasite < 10 && Avm.katlar.get(kat).Kuyruk.size() > 0) {
+
+                    System.out.println("Cikmak icin bekleyenlerin sayisi:" + Avm.katlar.get(kat).Kuyruk.get(0).kisiler);
+                    System.out.println("Burda kaldım");
+                    if (kapasite + Avm.katlar.get(kat).Kuyruk.get(0).kisiler > 10) {
+                        asagieklenecekkisi = 10 - kapasite;
+                        icindekiler.add(new Binenler(asagieklenecekkisi, Avm.katlar.get(kat).Kuyruk.get(0).kat));
+                        Avm.katlar.get(kat).Kuyruk.get(0).kisiler -= asagieklenecekkisi;
+                        kapasite += asagieklenecekkisi;
+                        //   Avm.katlar.get(kat).kisisayisi -= asagieklenecekkisi;
+                    } else {
+                        icindekiler.add(Avm.katlar.get(kat).Kuyruk.get(0));
+                        kapasite += Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                        //   Avm.katlar.get(kat).kisisayisi -= Avm.katlar.get(kat).Kuyruk.get(0).kisiler;
+                        Avm.katlar.get(kat).Kuyruk.remove(0);
+                    }
+
+                }
+                Avm.asansördenkisialmasemafor.release();
+                System.out.println("Asansörün Kapasitesi" + kapasite);
+                if (kat == 1) {
+                    Avm.semaphorekat1asagi.release();
+                } else if (kat == 2) {
+                    Avm.semaphorekat2asagi.release();
+                } else if (kat == 3) {
+                    Avm.semaphorekat3asagi.release();
+                } else if (kat == 4) {
+                    Avm.semaphorekat4asagi.release();
+                }
+                kat--;
+            }
+
+        }
+        Avm.semaphoregenel.release();
+    }
+
+}
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package yazlab1proje2;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author OnurOkyay
+ */
+public class KontrolThread extends Thread {
+    int toplamkisisayisi;
+    public static int asansorsayisi=1;
+        @Override
+    public void run() {
+        
+        while(true){
+            try {
+               Thread.sleep(100);
+            } catch (InterruptedException ex) {
+               Logger.getLogger(KontrolThread.class.getName()).log(Level.SEVERE, null, ex);
+          }
+            try {
+                Avm.semaphoregenel.acquire();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(KontrolThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            toplamkisisayisi=Avm.katlar.get(0).kisisayisi;
+            for(int i=0;i<Avm.katlar.get(1).Kuyruk.size();i++){
+                toplamkisisayisi+=Avm.katlar.get(1).Kuyruk.get(i).kisiler;
+            }
+             for(int i=0;i<Avm.katlar.get(2).Kuyruk.size();i++){
+                 
+                toplamkisisayisi+=Avm.katlar.get(2).Kuyruk.get(i).kisiler;
+            }
+              for(int i=0;i<Avm.katlar.get(3).Kuyruk.size();i++){
+                toplamkisisayisi+=Avm.katlar.get(3).Kuyruk.get(i).kisiler;
+            }
+               for(int i=0;i<Avm.katlar.get(4).Kuyruk.size();i++){
+                toplamkisisayisi+=Avm.katlar.get(4).Kuyruk.get(i).kisiler;
+            }
+                 Avm.semaphoregenel.release();
+                
+                
+         //   System.out.println("Toplam kişi sayisi:"+toplamkisisayisi);
+         
+           try{
+                
+//               if(toplamkisisayisi>=20){
+//                   Avm.asansörthread2.mod=true;
+//                 
+//               }
+//               else {
+//                    Avm.asansörthread2.mod=false;
+//               }
+//               if(toplamkisisayisi>=40){
+//                   Avm.asansörthread3.mod=true;
+//                  
+//                   
+//               }
+//                else {
+//                    Avm.asansörthread3.mod=false;
+//               }
+//               if(toplamkisisayisi>=80){
+//                   Avm.asansörthread4.mod=true;
+//                  
+//               }
+//                else {
+//                    Avm.asansörthread4.mod=false;
+//               }
+//               if(toplamkisisayisi>=160){
+//                   Avm.asansörthread5.mod=true;
+//                   
+//               }
+//                else {
+//                   
+//                    Avm.asansörthread5.mod=false;
+//               }
+//                Thread.sleep(0);
+            if(toplamkisisayisi>=20 &&  Avm.asansörthread2.mod==false){
+                Avm.asansörthread2.mod=true;
+                Thread.sleep(500);
+            }
+            if(toplamkisisayisi>=20 &&  Avm.asansörthread2.mod==true && Avm.asansörthread3.mod==false){
+                Avm.asansörthread3.mod=true;
+                 Thread.sleep(500);
+            }
+             if(toplamkisisayisi>=20 &&  Avm.asansörthread2.mod==true && Avm.asansörthread3.mod==true && Avm.asansörthread4.mod==false){
+                Avm.asansörthread4.mod=true;
+                 Thread.sleep(500);
+            }
+              if(toplamkisisayisi>=20 &&  Avm.asansörthread2.mod==true && Avm.asansörthread3.mod==true && Avm.asansörthread4.mod==true && Avm.asansörthread5.mod==false){
+                Avm.asansörthread5.mod=true;
+                 Thread.sleep(500);
+            }
+              
+              if(toplamkisisayisi<20 &&  Avm.asansörthread2.mod==true && Avm.asansörthread3.mod==true && Avm.asansörthread4.mod==true && Avm.asansörthread5.mod==true){
+                Avm.asansörthread5.mod=false;
+                 Thread.sleep(500);
+            }
+               if(toplamkisisayisi<20 &&  Avm.asansörthread2.mod==true && Avm.asansörthread3.mod==true && Avm.asansörthread4.mod==true && Avm.asansörthread5.mod==false){
+                Avm.asansörthread4.mod=false;
+                 Thread.sleep(500);
+            }
+                if(toplamkisisayisi<20 &&  Avm.asansörthread2.mod==true && Avm.asansörthread3.mod==true && Avm.asansörthread4.mod==false && Avm.asansörthread5.mod==false){
+                Avm.asansörthread3.mod=false;
+                 Thread.sleep(500);
+            }
+                if(toplamkisisayisi<20 &&  Avm.asansörthread2.mod==true && Avm.asansörthread3.mod==false && Avm.asansörthread4.mod==false && Avm.asansörthread5.mod==false){
+                Avm.asansörthread2.mod=false;
+                 Thread.sleep(500);
+            }          
+       
+      }
+      catch(InterruptedException ex){
+          System.err.println(ex);
+          
+      }  
+      
+        }
+     
+        
+    }
+}
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package yazlab1proje2;
+
+import java.util.Random;
+
+
+public class GirisThread extends Thread {
+Random r=new Random();
+int kackisi;
+int hedefkat;
+int yenigelenler;
+    @Override
+    public void run() {
+      int rastgelekat;
+        while(true){
+           try{
+               yenigelenler=r.nextInt(10)+1;
+               Avm.katlar.get(0).kisisayisi+=yenigelenler;//random sınıfı
+               System.out.println("0.katta şu  kadar kişi var:"+Avm.katlar.get(0).kisisayisi);
+               rastgelekat=r.nextInt(4)+1; 
+               Avm.katlar.get(0).Kuyruk.add(new Binenler(yenigelenler,rastgelekat));
+               
+               for(int i=0;i<Avm.katlar.get(0).Kuyruk.size();i++){
+                    System.out.println("["+Avm.katlar.get(0).Kuyruk.get(i).kisiler+"] ["+Avm.katlar.get(0).Kuyruk.get(i).kat+"]");
+               }
+              
+               
+                 Thread.sleep(500);
+//                 System.out.println("500 bekledi");   
+                
+                 
+          
+      }
+      catch(InterruptedException ex){
+          System.err.println(ex);
+          
+      }  
+        }
+     
+        
+    }
+    
+    
+    
+}
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package yazlab1proje2;
+
+/**
+ *
+ * @author OnurOkyay
+ */
+public class Arayüz extends javax.swing.JFrame {
+
+    /**
+     * Creates new form Arayüz
+     */
+    public Arayüz() {
+        initComponents();
+      
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        Asansör1Panel = new javax.swing.JPanel();
+        Asansör1 = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
+        jTextField6 = new javax.swing.JTextField();
+        jTextField7 = new javax.swing.JTextField();
+        jTextField8 = new javax.swing.JTextField();
+        AktifMi = new javax.swing.JTextField();
+        ModDurumu = new javax.swing.JTextField();
+        HangiKat = new javax.swing.JTextField();
+        HedefKat = new javax.swing.JTextField();
+        Yön = new javax.swing.JTextField();
+        Kapasite = new javax.swing.JTextField();
+        BinenKisiSayisi = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        icindekiler = new javax.swing.JTextArea();
+        Kat0Panel = new javax.swing.JPanel();
+        jTextField41 = new javax.swing.JTextField();
+        jTextField42 = new javax.swing.JTextField();
+        KuyrukKisiSayisi = new javax.swing.JTextField();
+        girisicindekiler = new javax.swing.JTextField();
+        jTextField9 = new javax.swing.JTextField();
+        Cikis = new javax.swing.JTextField();
+        Kat2Panel = new javax.swing.JPanel();
+        jTextField47 = new javax.swing.JTextField();
+        jTextField48 = new javax.swing.JTextField();
+        KuyrukKisiSayisi2 = new javax.swing.JTextField();
+        ToplamKisiSayisi1 = new javax.swing.JTextField();
+        girisicindekiler2 = new javax.swing.JTextField();
+        Kat3Panel = new javax.swing.JPanel();
+        jTextField50 = new javax.swing.JTextField();
+        jTextField51 = new javax.swing.JTextField();
+        KuyrukKisiSayisi3 = new javax.swing.JTextField();
+        ToplamKisiSayisi2 = new javax.swing.JTextField();
+        girisicindekiler3 = new javax.swing.JTextField();
+        Kat4Panel = new javax.swing.JPanel();
+        jTextField53 = new javax.swing.JTextField();
+        jTextField54 = new javax.swing.JTextField();
+        KuyrukKisiSayisi4 = new javax.swing.JTextField();
+        ToplamKisiSayisi3 = new javax.swing.JTextField();
+        girisicindekiler4 = new javax.swing.JTextField();
+        Asansör2Panel = new javax.swing.JPanel();
+        Asansör2 = new javax.swing.JTextField();
+        jTextField10 = new javax.swing.JTextField();
+        jTextField11 = new javax.swing.JTextField();
+        jTextField12 = new javax.swing.JTextField();
+        jTextField13 = new javax.swing.JTextField();
+        jTextField14 = new javax.swing.JTextField();
+        jTextField15 = new javax.swing.JTextField();
+        jTextField16 = new javax.swing.JTextField();
+        jTextField17 = new javax.swing.JTextField();
+        AktifMi1 = new javax.swing.JTextField();
+        ModDurumu1 = new javax.swing.JTextField();
+        HangiKat1 = new javax.swing.JTextField();
+        HedefKat1 = new javax.swing.JTextField();
+        Yön1 = new javax.swing.JTextField();
+        Kapasite1 = new javax.swing.JTextField();
+        BinenKisiSayisi1 = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        icindekiler1 = new javax.swing.JTextArea();
+        Asansör3Panel = new javax.swing.JPanel();
+        Asansör3 = new javax.swing.JTextField();
+        jTextField18 = new javax.swing.JTextField();
+        jTextField19 = new javax.swing.JTextField();
+        jTextField20 = new javax.swing.JTextField();
+        jTextField21 = new javax.swing.JTextField();
+        jTextField22 = new javax.swing.JTextField();
+        jTextField23 = new javax.swing.JTextField();
+        jTextField24 = new javax.swing.JTextField();
+        jTextField25 = new javax.swing.JTextField();
+        AktifMi2 = new javax.swing.JTextField();
+        ModDurumu2 = new javax.swing.JTextField();
+        HangiKat2 = new javax.swing.JTextField();
+        HedefKat2 = new javax.swing.JTextField();
+        Yön2 = new javax.swing.JTextField();
+        Kapasite2 = new javax.swing.JTextField();
+        BinenKisiSayisi2 = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        icindekiler2 = new javax.swing.JTextArea();
+        Asansör4Panel = new javax.swing.JPanel();
+        Asansör4 = new javax.swing.JTextField();
+        jTextField26 = new javax.swing.JTextField();
+        jTextField27 = new javax.swing.JTextField();
+        jTextField28 = new javax.swing.JTextField();
+        jTextField29 = new javax.swing.JTextField();
+        jTextField30 = new javax.swing.JTextField();
+        jTextField31 = new javax.swing.JTextField();
+        jTextField32 = new javax.swing.JTextField();
+        jTextField33 = new javax.swing.JTextField();
+        AktifMi3 = new javax.swing.JTextField();
+        ModDurumu3 = new javax.swing.JTextField();
+        HangiKat3 = new javax.swing.JTextField();
+        HedefKat3 = new javax.swing.JTextField();
+        Yön3 = new javax.swing.JTextField();
+        Kapasite3 = new javax.swing.JTextField();
+        BinenKisiSayisi3 = new javax.swing.JTextField();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        icindekiler3 = new javax.swing.JTextArea();
+        Asansör5Panel = new javax.swing.JPanel();
+        Asansör5 = new javax.swing.JTextField();
+        jTextField34 = new javax.swing.JTextField();
+        jTextField35 = new javax.swing.JTextField();
+        jTextField36 = new javax.swing.JTextField();
+        jTextField37 = new javax.swing.JTextField();
+        jTextField38 = new javax.swing.JTextField();
+        jTextField39 = new javax.swing.JTextField();
+        jTextField40 = new javax.swing.JTextField();
+        jTextField56 = new javax.swing.JTextField();
+        AktifMi4 = new javax.swing.JTextField();
+        ModDurumu4 = new javax.swing.JTextField();
+        HangiKat4 = new javax.swing.JTextField();
+        HedefKat4 = new javax.swing.JTextField();
+        Yön4 = new javax.swing.JTextField();
+        Kapasite4 = new javax.swing.JTextField();
+        BinenKisiSayisi4 = new javax.swing.JTextField();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        icindekiler4 = new javax.swing.JTextArea();
+        Kat1Panel = new javax.swing.JPanel();
+        jTextField44 = new javax.swing.JTextField();
+        jTextField45 = new javax.swing.JTextField();
+        KuyrukKisiSayisi1 = new javax.swing.JTextField();
+        ToplamKisiSayisi = new javax.swing.JTextField();
+        girisicindekiler1 = new javax.swing.JTextField();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1920, 1080));
+        getContentPane().setLayout(null);
+
+        Asansör1.setEditable(false);
+        Asansör1.setText("Asansör1");
+
+        jTextField1.setEditable(false);
+        jTextField1.setText("Aktif:");
+
+        jTextField2.setEditable(false);
+        jTextField2.setText("Mod");
+
+        jTextField3.setEditable(false);
+        jTextField3.setText("HangiKat:");
+
+        jTextField4.setEditable(false);
+        jTextField4.setText("HedefKat:");
+
+        jTextField5.setEditable(false);
+        jTextField5.setText("Yön:");
+
+        jTextField6.setEditable(false);
+        jTextField6.setText("Kapasite:");
+
+        jTextField7.setEditable(false);
+        jTextField7.setText("BinenKişiSayısı:");
+
+        jTextField8.setEditable(false);
+        jTextField8.setText("İçindekiler");
+
+        Kapasite.setText("10");
+
+        icindekiler.setColumns(20);
+        icindekiler.setRows(5);
+        jScrollPane1.setViewportView(icindekiler);
+
+        javax.swing.GroupLayout Asansör1PanelLayout = new javax.swing.GroupLayout(Asansör1Panel);
+        Asansör1Panel.setLayout(Asansör1PanelLayout);
+        Asansör1PanelLayout.setHorizontalGroup(
+            Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Asansör1PanelLayout.createSequentialGroup()
+                .addGroup(Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Asansör1PanelLayout.createSequentialGroup()
+                        .addGroup(Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(Asansör1PanelLayout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(Asansör1PanelLayout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addComponent(Asansör1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(Asansör1PanelLayout.createSequentialGroup()
+                                .addGroup(Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör1PanelLayout.createSequentialGroup()
+                                        .addGap(27, 27, 27)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(Asansör1PanelLayout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(ModDurumu, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                                    .addComponent(AktifMi)))
+                            .addGroup(Asansör1PanelLayout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(BinenKisiSayisi, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(Asansör1PanelLayout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addGroup(Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(Asansör1PanelLayout.createSequentialGroup()
+                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(HangiKat, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(Asansör1PanelLayout.createSequentialGroup()
+                                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(HedefKat, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör1PanelLayout.createSequentialGroup()
+                                            .addGroup(Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(Yön)
+                                                .addComponent(Kapasite, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)))))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
+        );
+        Asansör1PanelLayout.setVerticalGroup(
+            Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Asansör1PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Asansör1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AktifMi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ModDurumu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(HangiKat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(HedefKat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Yön, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Kapasite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BinenKisiSayisi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTextField41.setEditable(false);
+        jTextField41.setText("0.Kat:");
+
+        jTextField42.setEditable(false);
+        jTextField42.setText("GirişKuyruğu:");
+
+        KuyrukKisiSayisi.setEditable(false);
+        KuyrukKisiSayisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                KuyrukKisiSayisiActionPerformed(evt);
+            }
+        });
+
+        girisicindekiler.setEditable(false);
+
+        jTextField9.setText("CikisBekleyenKisiSayisi:");
+
+        Cikis.setText("jTextField10");
+
+        javax.swing.GroupLayout Kat0PanelLayout = new javax.swing.GroupLayout(Kat0Panel);
+        Kat0Panel.setLayout(Kat0PanelLayout);
+        Kat0PanelLayout.setHorizontalGroup(
+            Kat0PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Kat0PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField41, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Cikis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField42, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(KuyrukKisiSayisi, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(girisicindekiler, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(70, Short.MAX_VALUE))
+        );
+        Kat0PanelLayout.setVerticalGroup(
+            Kat0PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Kat0PanelLayout.createSequentialGroup()
+                .addGroup(Kat0PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField41, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField42, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(KuyrukKisiSayisi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(girisicindekiler, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Cikis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTextField47.setEditable(false);
+        jTextField47.setText("2.Kat:Toplam:");
+        jTextField47.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField47ActionPerformed(evt);
+            }
+        });
+
+        jTextField48.setEditable(false);
+        jTextField48.setText("ÇıkışKuyruğu:");
+
+        KuyrukKisiSayisi2.setEditable(false);
+
+        ToplamKisiSayisi1.setEditable(false);
+        ToplamKisiSayisi1.setText("jTextField59");
+
+        girisicindekiler2.setEditable(false);
+
+        javax.swing.GroupLayout Kat2PanelLayout = new javax.swing.GroupLayout(Kat2Panel);
+        Kat2Panel.setLayout(Kat2PanelLayout);
+        Kat2PanelLayout.setHorizontalGroup(
+            Kat2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Kat2PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField47, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ToplamKisiSayisi1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jTextField48, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(KuyrukKisiSayisi2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                .addComponent(girisicindekiler2, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        Kat2PanelLayout.setVerticalGroup(
+            Kat2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Kat2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jTextField47, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField48, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(KuyrukKisiSayisi2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ToplamKisiSayisi1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(girisicindekiler2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jTextField50.setEditable(false);
+        jTextField50.setText("3.Kat:Toplam:");
+        jTextField50.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField50ActionPerformed(evt);
+            }
+        });
+
+        jTextField51.setEditable(false);
+        jTextField51.setText("ÇıkışKuyruğu:");
+
+        KuyrukKisiSayisi3.setEditable(false);
+
+        ToplamKisiSayisi2.setEditable(false);
+        ToplamKisiSayisi2.setText("jTextField59");
+
+        girisicindekiler3.setEditable(false);
+
+        javax.swing.GroupLayout Kat3PanelLayout = new javax.swing.GroupLayout(Kat3Panel);
+        Kat3Panel.setLayout(Kat3PanelLayout);
+        Kat3PanelLayout.setHorizontalGroup(
+            Kat3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Kat3PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField50, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ToplamKisiSayisi2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jTextField51, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(KuyrukKisiSayisi3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                .addComponent(girisicindekiler3, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        Kat3PanelLayout.setVerticalGroup(
+            Kat3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Kat3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jTextField50, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField51, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(KuyrukKisiSayisi3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ToplamKisiSayisi2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(girisicindekiler3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jTextField53.setEditable(false);
+        jTextField53.setText("4.Kat:Toplam:");
+        jTextField53.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField53ActionPerformed(evt);
+            }
+        });
+
+        jTextField54.setEditable(false);
+        jTextField54.setText("ÇıkışKuyruğu:");
+
+        KuyrukKisiSayisi4.setEditable(false);
+
+        ToplamKisiSayisi3.setEditable(false);
+        ToplamKisiSayisi3.setText("jTextField59");
+
+        girisicindekiler4.setEditable(false);
+
+        javax.swing.GroupLayout Kat4PanelLayout = new javax.swing.GroupLayout(Kat4Panel);
+        Kat4Panel.setLayout(Kat4PanelLayout);
+        Kat4PanelLayout.setHorizontalGroup(
+            Kat4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Kat4PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField53, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ToplamKisiSayisi3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jTextField54, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(KuyrukKisiSayisi4, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                .addComponent(girisicindekiler4, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        Kat4PanelLayout.setVerticalGroup(
+            Kat4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Kat4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jTextField53, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField54, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(KuyrukKisiSayisi4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ToplamKisiSayisi3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(girisicindekiler4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        Asansör2.setEditable(false);
+        Asansör2.setText("Asansör2");
+
+        jTextField10.setEditable(false);
+        jTextField10.setText("Aktif:");
+
+        jTextField11.setEditable(false);
+        jTextField11.setText("Mod");
+
+        jTextField12.setEditable(false);
+        jTextField12.setText("HangiKat:");
+
+        jTextField13.setEditable(false);
+        jTextField13.setText("HedefKat:");
+
+        jTextField14.setEditable(false);
+        jTextField14.setText("Yön:");
+
+        jTextField15.setEditable(false);
+        jTextField15.setText("Kapasite:");
+
+        jTextField16.setEditable(false);
+        jTextField16.setText("BinenKişiSayısı:");
+
+        jTextField17.setEditable(false);
+        jTextField17.setText("İçindekiler");
+
+        Kapasite1.setText("10");
+
+        icindekiler1.setColumns(20);
+        icindekiler1.setRows(5);
+        jScrollPane2.setViewportView(icindekiler1);
+
+        javax.swing.GroupLayout Asansör2PanelLayout = new javax.swing.GroupLayout(Asansör2Panel);
+        Asansör2Panel.setLayout(Asansör2PanelLayout);
+        Asansör2PanelLayout.setHorizontalGroup(
+            Asansör2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Asansör2PanelLayout.createSequentialGroup()
+                .addGroup(Asansör2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Asansör2PanelLayout.createSequentialGroup()
+                        .addGroup(Asansör2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(Asansör2PanelLayout.createSequentialGroup()
+                                .addGroup(Asansör2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör2PanelLayout.createSequentialGroup()
+                                        .addGap(27, 27, 27)
+                                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(Asansör2PanelLayout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(Asansör2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(ModDurumu1, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                                    .addComponent(AktifMi1)))
+                            .addGroup(Asansör2PanelLayout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addComponent(Asansör2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(Asansör2PanelLayout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addGroup(Asansör2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(Asansör2PanelLayout.createSequentialGroup()
+                                        .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(BinenKisiSayisi1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(Asansör2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör2PanelLayout.createSequentialGroup()
+                                            .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(HedefKat1))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör2PanelLayout.createSequentialGroup()
+                                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(HangiKat1))
+                                        .addGroup(Asansör2PanelLayout.createSequentialGroup()
+                                            .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(Kapasite1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör2PanelLayout.createSequentialGroup()
+                                            .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(Yön1))))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
+                .addContainerGap())
+        );
+        Asansör2PanelLayout.setVerticalGroup(
+            Asansör2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Asansör2PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Asansör2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(Asansör2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AktifMi1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ModDurumu1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(HangiKat1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(HedefKat1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Yön1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Kapasite1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BinenKisiSayisi1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        Asansör3.setEditable(false);
+        Asansör3.setText("Asansör3");
+
+        jTextField18.setEditable(false);
+        jTextField18.setText("Aktif:");
+
+        jTextField19.setEditable(false);
+        jTextField19.setText("Mod");
+
+        jTextField20.setEditable(false);
+        jTextField20.setText("HangiKat:");
+
+        jTextField21.setEditable(false);
+        jTextField21.setText("HedefKat:");
+
+        jTextField22.setEditable(false);
+        jTextField22.setText("Yön:");
+
+        jTextField23.setEditable(false);
+        jTextField23.setText("Kapasite:");
+
+        jTextField24.setEditable(false);
+        jTextField24.setText("BinenKişiSayısı:");
+
+        jTextField25.setEditable(false);
+        jTextField25.setText("İçindekiler");
+
+        Kapasite2.setText("10");
+
+        icindekiler2.setColumns(20);
+        icindekiler2.setRows(5);
+        jScrollPane3.setViewportView(icindekiler2);
+
+        javax.swing.GroupLayout Asansör3PanelLayout = new javax.swing.GroupLayout(Asansör3Panel);
+        Asansör3Panel.setLayout(Asansör3PanelLayout);
+        Asansör3PanelLayout.setHorizontalGroup(
+            Asansör3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Asansör3PanelLayout.createSequentialGroup()
+                .addGroup(Asansör3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Asansör3PanelLayout.createSequentialGroup()
+                        .addGroup(Asansör3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(Asansör3PanelLayout.createSequentialGroup()
+                                .addGroup(Asansör3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör3PanelLayout.createSequentialGroup()
+                                        .addGap(27, 27, 27)
+                                        .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(Asansör3PanelLayout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(Asansör3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(ModDurumu2, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                                    .addComponent(AktifMi2)))
+                            .addGroup(Asansör3PanelLayout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addComponent(Asansör3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(Asansör3PanelLayout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addGroup(Asansör3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(Asansör3PanelLayout.createSequentialGroup()
+                                        .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(BinenKisiSayisi2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(Asansör3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör3PanelLayout.createSequentialGroup()
+                                            .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(HedefKat2))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör3PanelLayout.createSequentialGroup()
+                                            .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(HangiKat2))
+                                        .addGroup(Asansör3PanelLayout.createSequentialGroup()
+                                            .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(Kapasite2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(12, 12, 12))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör3PanelLayout.createSequentialGroup()
+                                            .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(Yön2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3))
+                .addContainerGap())
+        );
+        Asansör3PanelLayout.setVerticalGroup(
+            Asansör3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Asansör3PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Asansör3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(Asansör3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AktifMi2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ModDurumu2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(HangiKat2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(HedefKat2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Yön2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Kapasite2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör3PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BinenKisiSayisi2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        Asansör4.setEditable(false);
+        Asansör4.setText("Asansör4");
+
+        jTextField26.setEditable(false);
+        jTextField26.setText("Aktif:");
+
+        jTextField27.setEditable(false);
+        jTextField27.setText("Mod");
+
+        jTextField28.setEditable(false);
+        jTextField28.setText("HangiKat:");
+
+        jTextField29.setEditable(false);
+        jTextField29.setText("HedefKat:");
+
+        jTextField30.setEditable(false);
+        jTextField30.setText("Yön:");
+
+        jTextField31.setEditable(false);
+        jTextField31.setText("Kapasite:");
+
+        jTextField32.setEditable(false);
+        jTextField32.setText("BinenKişiSayısı:");
+
+        jTextField33.setEditable(false);
+        jTextField33.setText("İçindekiler");
+
+        Kapasite3.setText("10");
+
+        icindekiler3.setColumns(20);
+        icindekiler3.setRows(5);
+        jScrollPane4.setViewportView(icindekiler3);
+
+        javax.swing.GroupLayout Asansör4PanelLayout = new javax.swing.GroupLayout(Asansör4Panel);
+        Asansör4Panel.setLayout(Asansör4PanelLayout);
+        Asansör4PanelLayout.setHorizontalGroup(
+            Asansör4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Asansör4PanelLayout.createSequentialGroup()
+                .addGroup(Asansör4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Asansör4PanelLayout.createSequentialGroup()
+                        .addGroup(Asansör4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(Asansör4PanelLayout.createSequentialGroup()
+                                .addGroup(Asansör4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör4PanelLayout.createSequentialGroup()
+                                        .addGap(27, 27, 27)
+                                        .addComponent(jTextField26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(Asansör4PanelLayout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(Asansör4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(ModDurumu3, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                                    .addComponent(AktifMi3)))
+                            .addGroup(Asansör4PanelLayout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addComponent(Asansör4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(Asansör4PanelLayout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addGroup(Asansör4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField33, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(Asansör4PanelLayout.createSequentialGroup()
+                                        .addComponent(jTextField32, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(BinenKisiSayisi3, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(Asansör4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör4PanelLayout.createSequentialGroup()
+                                            .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(HedefKat3))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör4PanelLayout.createSequentialGroup()
+                                            .addComponent(jTextField28, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(HangiKat3))
+                                        .addGroup(Asansör4PanelLayout.createSequentialGroup()
+                                            .addComponent(jTextField31, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(Kapasite3, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(12, 12, 12))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör4PanelLayout.createSequentialGroup()
+                                            .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(Yön3, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4))
+                .addContainerGap())
+        );
+        Asansör4PanelLayout.setVerticalGroup(
+            Asansör4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Asansör4PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Asansör4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(Asansör4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AktifMi3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ModDurumu3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(HangiKat3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(HedefKat3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Yön3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Kapasite3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör4PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BinenKisiSayisi3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jTextField33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        Asansör5.setEditable(false);
+        Asansör5.setText("Asansör5");
+
+        jTextField34.setEditable(false);
+        jTextField34.setText("Aktif:");
+
+        jTextField35.setEditable(false);
+        jTextField35.setText("Mod");
+
+        jTextField36.setEditable(false);
+        jTextField36.setText("HangiKat:");
+
+        jTextField37.setEditable(false);
+        jTextField37.setText("HedefKat:");
+
+        jTextField38.setEditable(false);
+        jTextField38.setText("Yön:");
+
+        jTextField39.setEditable(false);
+        jTextField39.setText("Kapasite:");
+
+        jTextField40.setEditable(false);
+        jTextField40.setText("BinenKişiSayısı:");
+
+        jTextField56.setEditable(false);
+        jTextField56.setText("İçindekiler");
+
+        Kapasite4.setText("10");
+
+        icindekiler4.setColumns(20);
+        icindekiler4.setRows(5);
+        jScrollPane5.setViewportView(icindekiler4);
+
+        javax.swing.GroupLayout Asansör5PanelLayout = new javax.swing.GroupLayout(Asansör5Panel);
+        Asansör5Panel.setLayout(Asansör5PanelLayout);
+        Asansör5PanelLayout.setHorizontalGroup(
+            Asansör5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Asansör5PanelLayout.createSequentialGroup()
+                .addGroup(Asansör5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Asansör5PanelLayout.createSequentialGroup()
+                        .addGroup(Asansör5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(Asansör5PanelLayout.createSequentialGroup()
+                                .addGroup(Asansör5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör5PanelLayout.createSequentialGroup()
+                                        .addGap(27, 27, 27)
+                                        .addComponent(jTextField34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(Asansör5PanelLayout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jTextField35, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(Asansör5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(ModDurumu4, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                                    .addComponent(AktifMi4)))
+                            .addGroup(Asansör5PanelLayout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addComponent(Asansör5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(Asansör5PanelLayout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addGroup(Asansör5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField56, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(Asansör5PanelLayout.createSequentialGroup()
+                                        .addComponent(jTextField40, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(BinenKisiSayisi4, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(Asansör5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör5PanelLayout.createSequentialGroup()
+                                            .addComponent(jTextField36, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(HangiKat4)
+                                            .addGap(8, 8, 8))
+                                        .addGroup(Asansör5PanelLayout.createSequentialGroup()
+                                            .addComponent(jTextField39, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(Kapasite4, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(12, 12, 12))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, Asansör5PanelLayout.createSequentialGroup()
+                                            .addComponent(jTextField38, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(Yön4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(Asansör5PanelLayout.createSequentialGroup()
+                                        .addComponent(jTextField37, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(HedefKat4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5))
+                .addContainerGap())
+        );
+        Asansör5PanelLayout.setVerticalGroup(
+            Asansör5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Asansör5PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Asansör5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(Asansör5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AktifMi4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ModDurumu4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(HangiKat4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField37, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(HedefKat4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Yön4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField39, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Kapasite4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Asansör5PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BinenKisiSayisi4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jTextField56, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTextField44.setEditable(false);
+        jTextField44.setText("1.Kat:Toplam:");
+        jTextField44.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField44ActionPerformed(evt);
+            }
+        });
+
+        jTextField45.setEditable(false);
+        jTextField45.setText("ÇıkışKuyruğu:");
+
+        KuyrukKisiSayisi1.setEditable(false);
+
+        ToplamKisiSayisi.setEditable(false);
+        ToplamKisiSayisi.setText("jTextField59");
+        ToplamKisiSayisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ToplamKisiSayisiActionPerformed(evt);
+            }
+        });
+
+        girisicindekiler1.setEditable(false);
+
+        javax.swing.GroupLayout Kat1PanelLayout = new javax.swing.GroupLayout(Kat1Panel);
+        Kat1Panel.setLayout(Kat1PanelLayout);
+        Kat1PanelLayout.setHorizontalGroup(
+            Kat1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Kat1PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField44, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ToplamKisiSayisi, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(jTextField45, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(KuyrukKisiSayisi1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+                .addComponent(girisicindekiler1, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        Kat1PanelLayout.setVerticalGroup(
+            Kat1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Kat1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jTextField44, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(KuyrukKisiSayisi1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ToplamKisiSayisi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(girisicindekiler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(Asansör1Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Asansör2Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Asansör3Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Asansör4Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Asansör5Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Kat0Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Kat3Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Kat4Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Kat2Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Kat1Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(260, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Asansör1Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Asansör2Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Asansör3Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Asansör4Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Asansör5Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addComponent(Kat0Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Kat1Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Kat2Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Kat3Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Kat4Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(184, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 1470, 800);
+
+        pack();
+    }// </editor-fold>                        
+
+    private void jTextField44ActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        // TODO add your handling code here:
+    }                                            
+
+    private void jTextField47ActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        // TODO add your handling code here:
+    }                                            
+
+    private void jTextField50ActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        // TODO add your handling code here:
+    }                                            
+
+    private void jTextField53ActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        // TODO add your handling code here:
+    }                                            
+
+    private void KuyrukKisiSayisiActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+        // TODO add your handling code here:
+    }                                                
+
+    private void ToplamKisiSayisiActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+        // TODO add your handling code here:
+    }                                                
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Arayüz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Arayüz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Arayüz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Arayüz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Arayüz().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify                     
+    public javax.swing.JTextField AktifMi;
+    public javax.swing.JTextField AktifMi1;
+    public javax.swing.JTextField AktifMi2;
+    public javax.swing.JTextField AktifMi3;
+    public javax.swing.JTextField AktifMi4;
+    private javax.swing.JTextField Asansör1;
+    public javax.swing.JPanel Asansör1Panel;
+    private javax.swing.JTextField Asansör2;
+    public javax.swing.JPanel Asansör2Panel;
+    private javax.swing.JTextField Asansör3;
+    public javax.swing.JPanel Asansör3Panel;
+    private javax.swing.JTextField Asansör4;
+    public javax.swing.JPanel Asansör4Panel;
+    private javax.swing.JTextField Asansör5;
+    public javax.swing.JPanel Asansör5Panel;
+    public javax.swing.JTextField BinenKisiSayisi;
+    public javax.swing.JTextField BinenKisiSayisi1;
+    public javax.swing.JTextField BinenKisiSayisi2;
+    public javax.swing.JTextField BinenKisiSayisi3;
+    public javax.swing.JTextField BinenKisiSayisi4;
+    public javax.swing.JTextField Cikis;
+    public javax.swing.JTextField HangiKat;
+    public javax.swing.JTextField HangiKat1;
+    public javax.swing.JTextField HangiKat2;
+    public javax.swing.JTextField HangiKat3;
+    public javax.swing.JTextField HangiKat4;
+    public javax.swing.JTextField HedefKat;
+    public javax.swing.JTextField HedefKat1;
+    public javax.swing.JTextField HedefKat2;
+    public javax.swing.JTextField HedefKat3;
+    public javax.swing.JTextField HedefKat4;
+    public javax.swing.JTextField Kapasite;
+    public javax.swing.JTextField Kapasite1;
+    public javax.swing.JTextField Kapasite2;
+    public javax.swing.JTextField Kapasite3;
+    public javax.swing.JTextField Kapasite4;
+    public javax.swing.JPanel Kat0Panel;
+    public javax.swing.JPanel Kat1Panel;
+    public javax.swing.JPanel Kat2Panel;
+    public javax.swing.JPanel Kat3Panel;
+    public javax.swing.JPanel Kat4Panel;
+    public javax.swing.JTextField KuyrukKisiSayisi;
+    public javax.swing.JTextField KuyrukKisiSayisi1;
+    public javax.swing.JTextField KuyrukKisiSayisi2;
+    public javax.swing.JTextField KuyrukKisiSayisi3;
+    public javax.swing.JTextField KuyrukKisiSayisi4;
+    public javax.swing.JTextField ModDurumu;
+    public javax.swing.JTextField ModDurumu1;
+    public javax.swing.JTextField ModDurumu2;
+    public javax.swing.JTextField ModDurumu3;
+    public javax.swing.JTextField ModDurumu4;
+    public javax.swing.JTextField ToplamKisiSayisi;
+    public javax.swing.JTextField ToplamKisiSayisi1;
+    public javax.swing.JTextField ToplamKisiSayisi2;
+    public javax.swing.JTextField ToplamKisiSayisi3;
+    public javax.swing.JTextField Yön;
+    public javax.swing.JTextField Yön1;
+    public javax.swing.JTextField Yön2;
+    public javax.swing.JTextField Yön3;
+    public javax.swing.JTextField Yön4;
+    public javax.swing.JTextField girisicindekiler;
+    public javax.swing.JTextField girisicindekiler1;
+    public javax.swing.JTextField girisicindekiler2;
+    public javax.swing.JTextField girisicindekiler3;
+    public javax.swing.JTextField girisicindekiler4;
+    public javax.swing.JTextArea icindekiler;
+    public javax.swing.JTextArea icindekiler1;
+    public javax.swing.JTextArea icindekiler2;
+    public javax.swing.JTextArea icindekiler3;
+    public javax.swing.JTextArea icindekiler4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField10;
+    private javax.swing.JTextField jTextField11;
+    private javax.swing.JTextField jTextField12;
+    private javax.swing.JTextField jTextField13;
+    private javax.swing.JTextField jTextField14;
+    private javax.swing.JTextField jTextField15;
+    private javax.swing.JTextField jTextField16;
+    private javax.swing.JTextField jTextField17;
+    private javax.swing.JTextField jTextField18;
+    private javax.swing.JTextField jTextField19;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField20;
+    private javax.swing.JTextField jTextField21;
+    private javax.swing.JTextField jTextField22;
+    private javax.swing.JTextField jTextField23;
+    private javax.swing.JTextField jTextField24;
+    private javax.swing.JTextField jTextField25;
+    private javax.swing.JTextField jTextField26;
+    private javax.swing.JTextField jTextField27;
+    private javax.swing.JTextField jTextField28;
+    private javax.swing.JTextField jTextField29;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField30;
+    private javax.swing.JTextField jTextField31;
+    private javax.swing.JTextField jTextField32;
+    private javax.swing.JTextField jTextField33;
+    private javax.swing.JTextField jTextField34;
+    private javax.swing.JTextField jTextField35;
+    private javax.swing.JTextField jTextField36;
+    private javax.swing.JTextField jTextField37;
+    private javax.swing.JTextField jTextField38;
+    private javax.swing.JTextField jTextField39;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField40;
+    private javax.swing.JTextField jTextField41;
+    private javax.swing.JTextField jTextField42;
+    private javax.swing.JTextField jTextField44;
+    private javax.swing.JTextField jTextField45;
+    private javax.swing.JTextField jTextField47;
+    private javax.swing.JTextField jTextField48;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField50;
+    private javax.swing.JTextField jTextField51;
+    private javax.swing.JTextField jTextField53;
+    private javax.swing.JTextField jTextField54;
+    private javax.swing.JTextField jTextField56;
+    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
+    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField jTextField9;
+    // End of variables declaration                   
+}
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package yazlab1proje2;
+
+/**
+ *
+ * @author OnurOkyay
+ */
+public class Binenler {
+    int kisiler;
+    int kat; 
+
+    public Binenler(int kisiler, int kat) {
+        this.kisiler = kisiler;
+        this.kat = kat;
+    }
+    
+}
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package yazlab1proje2;
+
+import java.util.ArrayList;
+
+/**
+ *
+ * @author OnurOkyay
+ */
+public class Kat {
+    public int kisisayisi;
+    public int cikiskisisayisi=0;
+    ArrayList<Binenler> Kuyruk=new ArrayList<Binenler>();
+    
+}
+
+
